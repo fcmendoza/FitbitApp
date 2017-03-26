@@ -17,8 +17,8 @@ namespace ConsoleApp
                 Console.WriteLine(ex);
             }
 
-            Console.WriteLine("\nDone. Press any key to exit.");
-            Console.ReadLine();
+            //Console.WriteLine("\nDone. Press any key to exit.");
+            //Console.ReadLine();
         }
     }
 }
