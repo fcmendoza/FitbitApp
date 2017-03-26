@@ -1,6 +1,3 @@
-# FitbitApp
-Console app to connect to Fitbit's personal account
-
 * Dark green: goal achieved
 * Light green: prot > carbs
 
