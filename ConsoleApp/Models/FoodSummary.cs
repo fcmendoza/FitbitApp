@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace ConsoleApp.Models
 {
@@ -10,7 +11,13 @@ namespace ConsoleApp.Models
         public decimal CarbsTotal { get; set; }
         public decimal ProteinPercentage => ProteinTotal + CarbsTotal > 0 ? ProteinTotal / (ProteinTotal + CarbsTotal) * 100 : 0;
         public decimal CarbsPercentage => ProteinTotal + CarbsTotal > 0 ? CarbsTotal / (ProteinTotal + CarbsTotal) * 100 : 0;
-        public bool ProteinGoalAchived => ProteinTotal >= 120;
+        public bool ProteinGoalAchived => ProteinTotal >= _proteinGoal;
         public bool ProteinWins => ProteinTotal > CarbsTotal;
+
+        public FoodSummary()
+        {
+            _proteinGoal = int.TryParse(ConfigurationManager.AppSettings["ProteinGoal"], out _proteinGoal) ? _proteinGoal : 120;
+        }
+        private int _proteinGoal;
     }
 }

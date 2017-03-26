@@ -55,7 +55,7 @@ namespace ConsoleApp
             PrintEntry(averages, lines);
             lines.Add("```");
 
-            SaveFile(lines);
+            File.WriteAllLines(ConfigurationManager.AppSettings["NotesFilePath"], lines, System.Text.Encoding.UTF8);  // Save lines to file;
 
             Console.WriteLine();
         }
@@ -205,16 +205,6 @@ namespace ConsoleApp
         }
 
         #endregion
-
-        private void SaveFile(List<string> lines)
-        {
-            //using (var sw = new StreamWriter(ConfigurationManager.AppSettings["NotesFilePath"], false))
-            //{
-            //    sw.WriteLine(lines);
-            //}
-
-            File.WriteAllLines(ConfigurationManager.AppSettings["NotesFilePath"], lines, System.Text.Encoding.UTF8);
-        }
 
         public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
