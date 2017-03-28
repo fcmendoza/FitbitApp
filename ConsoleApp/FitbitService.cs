@@ -42,13 +42,14 @@ namespace ConsoleApp
 
             Console.WriteLine();
 
+            entries = entries.Where(x => x.Date.Date != DateTime.Now.Date).ToList(); // exclude today's date from here on.
+
             var averages = new FoodSummary
             {
-                // exclude today's date from the averages
                 Date = DateTime.MinValue,
-                CaloriesTotal = entries.Where(x => x.Date.Date != DateTime.Now.Date).Average(x => x.CaloriesTotal), 
-                ProteinTotal = entries.Where(x => x.Date.Date != DateTime.Now.Date).Average(x => x.ProteinTotal),
-                CarbsTotal = entries.Where(x => x.Date.Date != DateTime.Now.Date).Average(x => x.CarbsTotal),
+                CaloriesTotal = entries.Average(x => x.CaloriesTotal), 
+                ProteinTotal = entries.Average(x => x.ProteinTotal),
+                CarbsTotal = entries.Average(x => x.CarbsTotal),
             };
             
             lines.Add(string.Empty);
@@ -58,6 +59,13 @@ namespace ConsoleApp
             File.WriteAllLines(ConfigurationManager.AppSettings["NotesFilePath"], lines, System.Text.Encoding.UTF8);  // Save lines to file;
 
             Console.WriteLine();
+
+            string daysInfo = new string(' ', $"{averages.Date:ddd MMM dd}".Length) + "   "
+                + $"Good days: {entries.Count(x => x.IsGoodDay)}, Bad days: {entries.Count(x => x.IsBadDay)}, " 
+                + $"Meh days: {entries.Count(x => !x.IsBadDay && !x.IsGoodDay)}";
+
+            Console.WriteLine(daysInfo);
+            Console.WriteLine(new string(' ', $"{averages.Date:ddd MMM dd}".Length) + $"   Score: {entries.Average(x => x.DayScore).ToString("#.#")}");
         }
 
         private void PrintEntry(FoodSummary entry, List<string> lines)
@@ -78,6 +86,8 @@ namespace ConsoleApp
             }
             if (entry.CarbProteinRatioIsHigh)
                 Console.ForegroundColor = ConsoleColor.Red;
+            if (entry.Date == DateTime.Now.Date)
+                Console.ForegroundColor = ConsoleColor.DarkGray; // don't color today's entry.
 
             string line =
                 $"{dateString}   Cal: {calories}   Prot: {proteins}   Carbs: {carbs}   {percentages}";
