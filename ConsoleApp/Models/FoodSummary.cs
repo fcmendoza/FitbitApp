@@ -13,6 +13,7 @@ namespace ConsoleApp.Models
         public decimal CarbsPercentage => ProteinTotal + CarbsTotal > 0 ? CarbsTotal / (ProteinTotal + CarbsTotal) * 100 : 0;
         public bool ProteinGoalAchived => ProteinTotal >= _proteinGoal;
         public bool ProteinWins => ProteinTotal > CarbsTotal;
+        public bool CarbProteinRatioIsHigh => CarbsTotal/ProteinTotal > 2;
 
         public FoodSummary()
         {

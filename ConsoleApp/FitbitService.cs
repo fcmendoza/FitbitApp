@@ -76,6 +76,8 @@ namespace ConsoleApp
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.ForegroundColor = ConsoleColor.White;
             }
+            if (entry.CarbProteinRatioIsHigh)
+                Console.ForegroundColor = ConsoleColor.Red;
 
             string line =
                 $"{dateString}   Cal: {calories}   Prot: {proteins}   Carbs: {carbs}   {percentages}";
