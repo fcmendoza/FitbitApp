@@ -11,8 +11,7 @@ namespace ConsoleApp
 {
     public class FitbitService
     {
-        public FitbitService()
-        {
+        public FitbitService() {
             string baseUrl = "https://api.fitbit.com";
             _client = new RestClient(baseUrl);
         }
@@ -44,10 +43,9 @@ namespace ConsoleApp
 
             entries = entries.Where(x => x.Date.Date != DateTime.Now.Date).ToList(); // exclude today's date from here on.
 
-            var averages = new FoodSummary
-            {
+            var averages = new FoodSummary {
                 Date = DateTime.MinValue,
-                CaloriesTotal = entries.Average(x => x.CaloriesTotal), 
+                CaloriesTotal = entries.Average(x => x.CaloriesTotal),
                 ProteinTotal = entries.Average(x => x.ProteinTotal),
                 CarbsTotal = entries.Average(x => x.CarbsTotal),
             };
@@ -84,7 +82,7 @@ namespace ConsoleApp
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            if (entry.CarbProteinRatioIsHigh)
+            if (entry.CarbsToProteinRatioIsHigh)
                 Console.ForegroundColor = ConsoleColor.Red;
             if (entry.Date == DateTime.Now.Date)
                 Console.ForegroundColor = ConsoleColor.DarkGray; // don't color today's entry.
@@ -116,8 +114,6 @@ namespace ConsoleApp
 
         private FoodSummary GetFoodSummary(DateTime date)
         {
-            Console.WriteLine($"Retrieving totals for {date:MMM dd} ...");
-
             string url = $"1/user/-/foods/log/date/{date:yyyy-MM-dd}.json";
             var request = new RestRequest(url, Method.GET);
             request.AddHeader("Authorization", $"Bearer {_accessToken}");
@@ -137,8 +133,6 @@ namespace ConsoleApp
             if (response.StatusCode != HttpStatusCode.OK) {
                 Console.WriteLine($"An error was returned from Fitbit's API. StatusCode={response.StatusCode} ({response.StatusDescription}), ResponseContent='{response.Content}'.");
             }
-
-            //if(response.StatusCode == HttpStatusCode.Redirect)
 
             var summary = response.Data.summary;
 
@@ -218,8 +212,7 @@ namespace ConsoleApp
 
         #endregion
 
-        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
-        {
+        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru) {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
         }
