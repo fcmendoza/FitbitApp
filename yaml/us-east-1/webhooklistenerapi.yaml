@@ -3,5 +3,5 @@ volumes:
     secret:
       secretName: internal-cert
   containers:
-  - image: 123665233431.dkr.ecr.us-east-1.amazonaws.com/fcmendoza/webhooklistenerapi:16-master
+  - image: 123665233431.dkr.ecr.us-east-1.amazonaws.com/fcmendoza/webhooklistenerapi:master
     name: listenerapi
